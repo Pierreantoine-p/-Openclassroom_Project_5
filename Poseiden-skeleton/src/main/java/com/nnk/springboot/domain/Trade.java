@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Pattern;
 
 
 @Entity
@@ -19,9 +20,13 @@ public class Trade {
 	 private Integer tradeId;
 	 private String account;
 	 private String type;
+	 @Pattern(regexp  = "^\\\\d+(\\\\.\\\\d+)?$")
 	 private Double buyQuantity;
+	 @Pattern(regexp  = "^\\\\d+(\\\\.\\\\d+)?$")
 	 private Double sellQuantity;
+	 @Pattern(regexp  = "^\\\\d+(\\\\.\\\\d+)?$")
 	 private Double buyPrice;
+	 @Pattern(regexp  = "^\\\\d+(\\\\.\\\\d+)?$")
 	 private Double sellPrice;
 	 private String benchmark;
 	 private Timestamp tradeDate;

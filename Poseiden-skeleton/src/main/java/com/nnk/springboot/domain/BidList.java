@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -20,14 +21,17 @@ public class BidList {
 	@Id
     @GeneratedValue(strategy= GenerationType.AUTO)
 	 private Integer BidListId;
-    @NotBlank(message = "account is mandatory")
+    @NotBlank(message = "Account is mandatory")
 	 private String account;
-    @NotBlank(message = "type is mandatory")
+    @NotBlank(message = "Type is mandatory")
 	 private String type;
-    @NotBlank(message = "bidQuantity is mandatory")
+	 @Pattern(regexp  = "^\\\\d+(\\\\.\\\\d+)?$")
 	 private Double bidQuantity;
+	 @Pattern(regexp  = "^\\\\d+(\\\\.\\\\d+)?$")
 	 private Double askQuantity;
+	 @Pattern(regexp  = "^\\\\d+(\\\\.\\\\d+)?$")
 	 private Double bid;
+	 @Pattern(regexp  = "^\\\\d+(\\\\.\\\\d+)?$")
 	 private Double ask;
 	 private String benchmark;
 	 private Timestamp bidListDate;

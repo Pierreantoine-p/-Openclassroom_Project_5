@@ -2,6 +2,9 @@ package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
+
+import java.awt.print.Printable;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -30,16 +33,16 @@ public class UserController {
     public String addUser(User bid) {
         return "user/add";
     }
-
+    
     @PostMapping("/user/validate")
     public String validate(@Valid User user, BindingResult result, Model model) {
-        if (!result.hasErrors()) {
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            user.setPassword(encoder.encode(user.getPassword()));
-            userRepository.save(user);
-            model.addAttribute("users", userRepository.findAll());
-            return "redirect:/user/list";
-        }
+    		 if (!result.hasErrors()) {
+    	            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    	            user.setPassword(encoder.encode(user.getPassword()));
+    	            userRepository.save(user);
+    	            model.addAttribute("users", userRepository.findAll());
+    	            return "redirect:/user/list";
+    	        }
         return "user/add";
     }
 
@@ -57,7 +60,6 @@ public class UserController {
         if (result.hasErrors()) {
             return "user/update";
         }
-
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
         user.setId(id);

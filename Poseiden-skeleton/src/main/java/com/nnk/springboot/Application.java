@@ -10,3 +10,9 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 }
+
+/*
+ * pas de mot de passe en clair
+ * connexion à partir d'un user de la bdd
+ * 
+ */
