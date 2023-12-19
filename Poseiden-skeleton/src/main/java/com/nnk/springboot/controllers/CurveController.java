@@ -29,22 +29,36 @@ public class CurveController {
 		return "curvePoint/list";
 	}
 
+	  /**
+  	 * Get all curvePoint
+  	 * @return "curvePoint/add"
+  	 */
 	@GetMapping("/curvePoint/add")
 	public String addBidForm(CurvePoint bid) {
 		return "curvePoint/add";
 	}
 
+	  /**
+  	 * Post for validate curvePoint 
+  	 * @RequestBody CurvePoint : curvePoint
+  	 * @return "redirect:/curvePoint/list"
+  	 */
 	@PostMapping("/curvePoint/validate")
 	public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
 		if (!result.hasErrors()) {
 			curvePointRepository.save(curvePoint);
 			model.addAttribute("curvePoint", curvePointRepository.findAll());
-            return "redirect:/curvePoint/list";
+			return "redirect:/curvePoint/list";
 
 		}
 		return "curvePoint/add";
 	}
 
+	   /**
+	  	 * Update one curvePoint by id
+	  	 * @Param id : id
+	  	 * @return "curvePoint/update"
+	  	 */
 	@GetMapping("/curvePoint/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 		CurvePoint curvePoint  = curvePointRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
@@ -52,6 +66,11 @@ public class CurveController {
 		return "curvePoint/update";
 	}
 
+	 /**
+  	 * Update one curvePoint by id
+  	 * @Param id : id
+  	 * @return "redirect:/curvePoint/list"
+  	 */
 	@PostMapping("/curvePoint/update/{id}")
 	public String updateBid(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint,
 			BindingResult result, Model model) {
@@ -63,6 +82,11 @@ public class CurveController {
 		return "redirect:/curvePoint/list";
 	}
 
+	/**
+	 * Delete one curvePoint by id
+	 * @Param id : id
+	 * @return "redirect:/curvePoint/list"
+	 */
 	@GetMapping("/curvePoint/delete/{id}")
 	public String deleteBid(@PathVariable("id") Integer id, Model model) {
 		CurvePoint curvePoint  = curvePointRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));

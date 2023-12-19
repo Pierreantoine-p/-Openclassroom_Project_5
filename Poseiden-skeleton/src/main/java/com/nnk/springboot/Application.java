@@ -12,7 +12,10 @@ public class Application {
 }
 
 /*
- * pas de mot de passe en clair
- * connexion à partir d'un user de la bdd
- * 
+ * test service 
+ * check champs regex
+ * page view 
+ * attention colonne bid list 
+ * configuration error authentification
+ * test unitaire
  */

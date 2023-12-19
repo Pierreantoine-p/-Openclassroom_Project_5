@@ -25,11 +25,20 @@ public class RuleNameController {
 		return "ruleName/list";
 	}
 
+	/**
+  	 * Get all ruleNames
+  	 * @return "ruleName/add"
+  	 */
 	@GetMapping("/ruleName/add")
 	public String addRuleForm(RuleName bid) {
 		return "ruleName/add";
 	}
 
+    /**
+  	 * Post for validate user ruleName
+  	 * @RequestBody RuleName : ruleName
+  	 * @return "redirect:/ruleName/list"
+  	 */
 	@PostMapping("/ruleName/validate")
 	public String validate(@Valid RuleName ruleName, BindingResult result, Model model) {
 		if (!result.hasErrors()) {
@@ -40,6 +49,11 @@ public class RuleNameController {
 		return "ruleName/add";
 	}
 
+	/**
+  	 * Update one ruleName by id
+  	 * @Param id : id
+  	 * @return "ruleName/update"
+  	 */
 	@GetMapping("/ruleName/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 		RuleName ruleName = ruleNameRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
@@ -47,6 +61,11 @@ public class RuleNameController {
 		return "ruleName/update";
 	}
 
+	  /**
+  	 * Update one ruleName by id
+  	 * @Param id : id
+  	 * @return "redirect:/ruleName/list"
+  	 */
 	@PostMapping("/ruleName/update/{id}")
 	public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleName ruleName,
 			BindingResult result, Model model) {
@@ -58,6 +77,11 @@ public class RuleNameController {
 		return "redirect:/ruleName/list";
 	}
 
+    /**
+	 * Delete one ruleName by id
+	 * @Param id : id
+	 * @return "redirect:/ruleName/list"
+	 */
 	@GetMapping("/ruleName/delete/{id}")
 	public String deleteRuleName(@PathVariable("id") Integer id, Model model) {
 		RuleName ruleName = ruleNameRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));

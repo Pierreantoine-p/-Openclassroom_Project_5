@@ -2,6 +2,7 @@ package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,10 @@ public class LoginController {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+   	 * Get for login user
+   	 * @return mav
+   	 */
     @GetMapping("login")
     public ModelAndView login() {
         ModelAndView mav = new ModelAndView();
@@ -21,6 +26,10 @@ public class LoginController {
         return mav;
     }
 
+    /**
+  	 * Get for secure article
+  	 * @return mav
+  	 */
     @GetMapping("secure/article-details")
     public ModelAndView getAllUserArticles() {
         ModelAndView mav = new ModelAndView();
@@ -29,6 +38,10 @@ public class LoginController {
         return mav;
     }
 
+    /**
+  	 * Get error's page
+  	 * @return mav
+  	 */
     @GetMapping("error")
     public ModelAndView error() {
         ModelAndView mav = new ModelAndView();
@@ -38,4 +51,5 @@ public class LoginController {
         return mav;
     }
     
+
 }
