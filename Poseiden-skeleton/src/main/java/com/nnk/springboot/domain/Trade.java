@@ -16,7 +16,7 @@ import jakarta.validation.constraints.Pattern;
 public class Trade {
 	
 	 @Id
-	 @GeneratedValue(strategy= GenerationType.AUTO)
+	 @GeneratedValue(strategy= GenerationType.IDENTITY)
 	 private Integer tradeId;
 	 private String account;
 	 private String type;
