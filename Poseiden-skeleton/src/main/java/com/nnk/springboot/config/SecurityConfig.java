@@ -22,7 +22,7 @@ import org.springframework.security.web.server.authentication.logout.WebSessionS
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig  {
+public class SecurityConfig {
 
 	@Autowired
 	private CustomUserDetailsService customUserDetailsService;
@@ -32,45 +32,32 @@ public class SecurityConfig  {
 	 */
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		
-		 DelegatingServerLogoutHandler logoutHandler = new DelegatingServerLogoutHandler(
-		            new WebSessionServerLogoutHandler(), new SecurityContextServerLogoutHandler()
-		    );
-		 
+
+		/*DelegatingServerLogoutHandler logoutHandler = new DelegatingServerLogoutHandler(
+				new WebSessionServerLogoutHandler(), new SecurityContextServerLogoutHandler());*/
+
 		http
 
-		.cors(AbstractHttpConfigurer::disable)
-		.csrf(AbstractHttpConfigurer::disable)
-		.authorizeHttpRequests((authorize) -> authorize
-				.requestMatchers("/home").permitAll()
-				.requestMatchers("/").permitAll()
-				//.anyRequest().permitAll()
-				.anyRequest().authenticated()
-				)
-		.httpBasic(Customizer.withDefaults())
-		
-		.formLogin(form -> form
-		.defaultSuccessUrl("/bidList/list")
-		)
-        .logout((logout) -> logout
-        		//.logoutHandler(logoutHandler)
-        		.logoutSuccessUrl("/")
-        		)
-		.exceptionHandling(exceptionHandling -> exceptionHandling
-				.accessDeniedPage("/app/error")
-				);
-		
-		
+				.cors(AbstractHttpConfigurer::disable).csrf(AbstractHttpConfigurer::disable)
+				.authorizeHttpRequests(
+						(authorize) -> authorize.requestMatchers("/home").permitAll().requestMatchers("/").permitAll()
+								// .anyRequest().permitAll()
+								.anyRequest().authenticated())
+				.httpBasic(Customizer.withDefaults())
+
+				.formLogin(form -> form.defaultSuccessUrl("/bidList/list")).logout((logout) -> logout
+						// .logoutHandler(logoutHandler)
+						.logoutSuccessUrl("/"))
+				.exceptionHandling(exceptionHandling -> exceptionHandling.accessDeniedPage("/app/error"));
 
 		return http.build();
 	}
-	
+
 	/*
 	 * User authentication from the database
 	 */
 	@Bean
-	public AuthenticationManager authenticationManager(
-			BCryptPasswordEncoder passwordEncoder) {
+	public AuthenticationManager authenticationManager(BCryptPasswordEncoder passwordEncoder) {
 		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
 		authenticationProvider.setUserDetailsService(customUserDetailsService);
 		authenticationProvider.setPasswordEncoder(passwordEncoder);
@@ -78,9 +65,8 @@ public class SecurityConfig  {
 		return new ProviderManager(authenticationProvider);
 	}
 
-
 	/*
-	 * Password decryption 
+	 * Password decryption
 	 */
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
