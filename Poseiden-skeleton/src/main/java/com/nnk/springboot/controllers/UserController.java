@@ -51,6 +51,7 @@ public class UserController {
   	 */
     @PostMapping("/user/validate")
     public String validate(@Valid User user, BindingResult result, Model model) {
+    	System.out.println("Nom de zeus : " + user);
     		 if (!result.hasErrors()) {
     	            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     	            user.setPassword(encoder.encode(user.getPassword()));

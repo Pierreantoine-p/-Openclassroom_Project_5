@@ -33,22 +33,32 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-		/*DelegatingServerLogoutHandler logoutHandler = new DelegatingServerLogoutHandler(
-				new WebSessionServerLogoutHandler(), new SecurityContextServerLogoutHandler());*/
+		/* DelegatingServerLogoutHandler logoutHandler = new DelegatingServerLogoutHandler(
+		            new WebSessionServerLogoutHandler(), new SecurityContextServerLogoutHandler()
+		    );*/
 
 		http
 
 				.cors(AbstractHttpConfigurer::disable).csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests(
-						(authorize) -> authorize.requestMatchers("/home").permitAll().requestMatchers("/").permitAll()
-								// .anyRequest().permitAll()
-								.anyRequest().authenticated())
+						(authorize) -> authorize
+						.requestMatchers("/home").permitAll()
+						.requestMatchers("/").permitAll()
+						.requestMatchers("/app/login").permitAll()
+						.requestMatchers("/user/list").permitAll()
+						.requestMatchers("/user/validate").permitAll()
+
+						.requestMatchers("/user/add").permitAll()
+					
+						.anyRequest().authenticated())
 				.httpBasic(Customizer.withDefaults())
 
-				.formLogin(form -> form.defaultSuccessUrl("/bidList/list")).logout((logout) -> logout
-						// .logoutHandler(logoutHandler)
-						.logoutSuccessUrl("/"))
-				.exceptionHandling(exceptionHandling -> exceptionHandling.accessDeniedPage("/app/error"));
+				.formLogin(form -> form
+						.loginPage("/app/login")
+						.permitAll());
+				//.logout((logout) -> logout.addLogoutHandler(logoutHandler));
+						//.logoutSuccessUrl("/login"))
+				//.exceptionHandling(exceptionHandling -> exceptionHandling.accessDeniedPage("/app/error"));
 
 		return http.build();
 	}

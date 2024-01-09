@@ -17,5 +17,5 @@ public class Application {
  * page view 
  * attention colonne bid list 
  * configuration error authentification
- * test unitaire
+ * externalisation properties
  */
