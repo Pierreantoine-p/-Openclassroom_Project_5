@@ -20,6 +20,7 @@ import org.springframework.security.web.server.authentication.logout.DelegatingS
 import org.springframework.security.web.server.authentication.logout.SecurityContextServerLogoutHandler;
 import org.springframework.security.web.server.authentication.logout.WebSessionServerLogoutHandler;
 import org.springframework.security.web.server.header.XFrameOptionsServerHttpHeadersWriter.Mode;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -44,24 +45,20 @@ public class SecurityConfig {
 				.cors(AbstractHttpConfigurer::disable).csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests(
 						(authorize) -> authorize
-						.requestMatchers("/home", "/", "/user/list","/user/validate","/user/add").permitAll()	
+						.requestMatchers("/home", "/", "/user/list","/user/add").permitAll()	
 						.requestMatchers("/resources/**").permitAll()
+						.requestMatchers("/user/*").hasAuthority("ADMIN")
 						.anyRequest().authenticated())
-				.httpBasic(Customizer.withDefaults())
+				//.httpBasic(Customizer.withDefaults())
 				
-				.formLogin()
-				.defaultSuccessUrl("/bidList/list")
-				
-				/*
-				 * form -> form
-						.loginPage("/app/login")
-						//.defaultSuccessUrl("/bidList/add")
-						 .failureUrl("/app/login.html?error=true")
-						.permitAll()
-				 */
-						//.logoutSuccessUrl("/login"))
-				//.exceptionHandling(exceptionHandling -> exceptionHandling.accessDeniedPage("/app/error"))
-;
+				.formLogin((formLogin) -> formLogin
+                        //.usernameParameter("user.username")
+                        .defaultSuccessUrl("/bidList/list", true)
+                )
+				 .logout((logout) -> logout.permitAll()
+	                        .logoutRequestMatcher(new AntPathRequestMatcher("/app-logout"))
+	                        .logoutSuccessUrl("/"))
+	                        .exceptionHandling((exceptionHandling) -> exceptionHandling.accessDeniedPage("/app/error"));
 		return http.build();
 	}
 	

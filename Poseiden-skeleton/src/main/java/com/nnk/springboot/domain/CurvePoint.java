@@ -17,11 +17,14 @@ public class CurvePoint {
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Integer id;
     @NotBlank(message = "must not be null")
+	 @Column(name = "curveid")
 	private Integer curveId;
+	 @Column(name = "asofdate")
 	private Timestamp asOfDate;
-	 @Pattern(regexp  = "^\\\\d+(\\\\.\\\\d+)?$")
+	 @Pattern(regexp  = "^-?\\d+(\\.\\d+)?$")
 	private Double term;
-	 @Pattern(regexp  = "^\\\\d+(\\\\.\\\\d+)?$")
+	 @Pattern(regexp  = "^-?\\d+$")
 	private Double value;
+	 @Column(name = "creationdate")
 	private Timestamp creationDate;
 }
