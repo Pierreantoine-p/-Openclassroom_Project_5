@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class Application {
-
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
@@ -14,8 +13,5 @@ public class Application {
 /*
  * test service 
  * check champs regex
- * page view 
- * attention colonne bid list 
- * configuration error authentification
  * externalisation properties
  */
