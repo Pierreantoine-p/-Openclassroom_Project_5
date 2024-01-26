@@ -9,9 +9,3 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 }
-
-/*
- * test service 
- * check champs regex
- * externalisation properties
- */
