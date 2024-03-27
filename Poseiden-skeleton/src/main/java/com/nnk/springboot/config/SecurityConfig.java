@@ -35,34 +35,26 @@ public class SecurityConfig {
 	@SuppressWarnings("removal")
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-		/*DelegatingServerLogoutHandler logoutHandler = new DelegatingServerLogoutHandler(
-		            new WebSessionServerLogoutHandler(), new SecurityContextServerLogoutHandler()
-		    );*/
-
 		http
 
-				.cors(AbstractHttpConfigurer::disable).csrf(AbstractHttpConfigurer::disable)
-				.authorizeHttpRequests(
-						(authorize) -> authorize
-						.requestMatchers("/home", "/", "/user/list","/user/add").permitAll()	
-						.requestMatchers("/resources/**").permitAll()
-						.requestMatchers("/user/*").hasAuthority("ADMIN")
-						.anyRequest().authenticated())
-				//.httpBasic(Customizer.withDefaults())
-				
-				.formLogin((formLogin) -> formLogin
-                        //.usernameParameter("user.username")
-                        .defaultSuccessUrl("/bidList/list", true)
-                )
-				 .logout((logout) -> logout.permitAll()
-	                        .logoutRequestMatcher(new AntPathRequestMatcher("/app-logout"))
-	                        .logoutSuccessUrl("/"))
-	                        .exceptionHandling((exceptionHandling) -> exceptionHandling.accessDeniedPage("/app/error"));
+		.cors(AbstractHttpConfigurer::disable).csrf(AbstractHttpConfigurer::disable)
+		.authorizeHttpRequests(
+				(authorize) -> authorize
+				.requestMatchers("/home", "/", "/user/list","/user/add").permitAll()	
+				.requestMatchers("/resources/**").permitAll()
+				.requestMatchers("/user/*").hasAuthority("ADMIN")
+				.anyRequest().authenticated())
+
+		.formLogin((formLogin) -> formLogin
+				.defaultSuccessUrl("/bidList/list", true)
+				)
+		.logout((logout) -> logout.permitAll()
+				.logoutRequestMatcher(new AntPathRequestMatcher("/app-logout"))
+				.logoutSuccessUrl("/"))
+		.exceptionHandling((exceptionHandling) -> exceptionHandling.accessDeniedPage("/app/error"));
 		return http.build();
 	}
-	
-	
+
 
 	/*
 	 * User authentication from the database
@@ -74,7 +66,7 @@ public class SecurityConfig {
 		authenticationProvider.setPasswordEncoder(passwordEncoder);
 
 		return new ProviderManager(authenticationProvider);
-	}
+	}	
 
 	/*
 	 * Password decryption

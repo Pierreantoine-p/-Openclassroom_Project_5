@@ -47,6 +47,7 @@ public class BidList {
 	 
 	 private String benchmark;
 	 
+	 
 	 @Column(name = "bidlistdate")
 	 private Timestamp bidListDate;
 	 

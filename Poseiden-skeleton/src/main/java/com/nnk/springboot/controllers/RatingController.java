@@ -2,6 +2,8 @@ package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.repositories.RatingRepository;
+import com.nnk.springboot.service.RatingService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,13 +19,12 @@ import jakarta.validation.Valid;
 public class RatingController {
 	
     @Autowired
-    private RatingRepository ratingRepository;
+    private RatingService ratingService;
     
     @RequestMapping("/rating/list")
     public String home(Model model)
     {
-        model.addAttribute("rating", ratingRepository.findAll());
-        return "rating/list";
+        return ratingService.home(model);
     }
 
     /**
@@ -32,7 +33,7 @@ public class RatingController {
   	 */
     @GetMapping("/rating/add")
     public String addRatingForm(Rating rating) {
-        return "rating/add";
+        return ratingService.addRatingForm(rating);
     }
     
     /**
@@ -42,13 +43,8 @@ public class RatingController {
   	 */
     @PostMapping("/rating/validate")
     public String validate(@Valid Rating rating, BindingResult result, Model model) {
-    	if (!result.hasErrors()) {
-    		ratingRepository.save(rating);
-            model.addAttribute("ratings", ratingRepository.findAll());
-            return "redirect:/rating/list";
-
-    	}
-        return "rating/add";
+   
+        return ratingService.validate(rating, result, model);
     }
 
     /**
@@ -58,9 +54,8 @@ public class RatingController {
   	 */
     @GetMapping("/rating/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-    	Rating rating = ratingRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-        model.addAttribute("rating", rating);
-        return "rating/update";
+  
+        return ratingService.showUpdateForm(id, model);
     }
 
     /**
@@ -71,12 +66,8 @@ public class RatingController {
     @PostMapping("/rating/update/{id}")
     public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating,
                              BindingResult result, Model model) {
-    	 if (result.hasErrors()) {
-             return "rating/update";
-         }
- 		ratingRepository.save(rating);
-        model.addAttribute("ratings", ratingRepository.findAll());
-        return "redirect:/rating/list";
+  
+        return ratingService.updateRating(id, rating, result, model);
     }
     
     /**
@@ -86,9 +77,7 @@ public class RatingController {
    	 */
     @GetMapping("/rating/delete/{id}")
     public String deleteRating(@PathVariable("id") Integer id, Model model) {
-    	Rating rating = ratingRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-    	ratingRepository.delete(rating);
-        model.addAttribute("ratings", ratingRepository.findAll());
-        return "redirect:/rating/list";
+
+        return ratingService.deleteRating(id, model);
     }
 }
