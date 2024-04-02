@@ -1,39 +1,46 @@
-Ce projet est une application développée en utilisant Spring Boot et Maven, avec une base de données SQL.
+Ce repository contient un projet Spring Boot avec une base de données SQL nommée demo. Le projet est configuré pour être lancé sans IDE en utilisant Maven. De plus, des tests sont inclus qui utilisent une base de données de test distincte nommée demo_test.
 Prérequis
 
-    JDK (Java Development Kit) installé sur votre système.
-    Maven installé sur votre système.
-    Un serveur de base de données compatible avec Spring Boot (par exemple, MySQL, PostgreSQL, H2, etc.).
+Avant de cloner et de lancer le projet, assurez-vous d'avoir installé les outils suivants :
 
-Installation et Configuration
+    Java JDK (version 11 ou supérieure)
+    Apache Maven
+    Un système de gestion de base de données SQL compatible avec Spring Boot (par exemple, MySQL, PostgreSQL, etc.)
 
-    Cloner le Projet
+Clonage du Projet
 
-    bash
+Utilisez la commande suivante pour cloner le projet depuis GitHub :
 
-git clone <URL_du_projet>
+bash
 
-Importer le Projet dans votre IDE
-Importez le projet dans votre IDE préféré (Eclipse, IntelliJ IDEA, etc.) en tant que projet Maven existant.
+git clone https://github.com/votre-utilisateur/nom-du-projet.git
 
-Configurer la Base de Données
+Configuration de la Base de Données
 
-    Créez une base de données dans votre serveur de base de données.
-    Assurez-vous que les informations de connexion à la base de données sont correctement configurées dans le fichier application.properties sous src/main/resources.
+Avant de lancer l'application, assurez-vous de configurer correctement la base de données.
 
-Exécution du Projet
+Assurez-vous également de créer une base de données distincte pour les tests nommée demo_test. Les tests utiliseront cette base de données pour éviter tout conflit avec la base de données principale.
+Compilation et Exécution
 
-    Utilisez votre IDE pour exécuter l'application Spring Boot, ou bien exécutez la commande suivante à la racine du projet :
+Utilisez Maven pour compiler et exécuter le projet. Naviguez vers le répertoire racine du projet et exécutez les commandes suivantes :
 
-    arduino
+Pour compiler le projet :
 
-        mvn spring-boot:run
+mvn clean install
 
-Utilisation
+Pour lancer l'application :
 
-    Une fois l'application déployée et en cours d'exécution, vous pouvez accéder aux fonctionnalités à travers les points d'extrémité REST exposés par l'application.
-    Consultez la documentation de l'API pour connaître les différents points d'accès et leurs fonctionnalités associées.
+arduino
 
-Fichier SQL
+mvn spring-boot:run
 
-    Le fichier SQL fourni contient les scripts nécessaires pour initialiser et peupler la base de données. Assurez-vous d'exécuter ces scripts dans votre base de données avant de lancer l'application.
+L'application sera alors accessible à l'adresse http://localhost:8080.
+Exécution des Tests
+
+Les tests peuvent être exécutés en utilisant la commande Maven suivante :
+
+bash
+
+mvn test
+
+Assurez-vous que la base de données de test demo_test est correctement configurée avant d'exécuter les tests.
