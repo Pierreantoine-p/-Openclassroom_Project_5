@@ -21,7 +21,7 @@ public class User {
     @NotBlank(message = "Username is mandatory")
     private String username;
     @NotBlank(message = "Password is mandatory")
-    @Pattern(regexp  = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()\\-_=+{};:,<.>]).{8,}$")
+    @Pattern(regexp  = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()\\-_=+{};:,<.>]).{8,}$", message = "Votre mot de passe doit contenir 8 caractère un chiffre et une majuscule minimum")
     private String password;
     @NotBlank(message = "FullName is mandatory")
     private String fullname;

@@ -1,8 +1,7 @@
-package com.nnk.springboot.controller;
-
-import static org.mockito.Mockito.mock;
+package com.nnk.springboot.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,15 +19,14 @@ import org.springframework.validation.BindingResult;
 import com.nnk.springboot.controllers.UserController;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
-import com.nnk.springboot.service.UserService;
 
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles("test")
-public class UserControllerTest {
-
-    @Autowired
+public class UserServiceTest {
+	
+	@Autowired
     private UserController userController;
     
 	@Autowired
@@ -43,9 +41,9 @@ public class UserControllerTest {
 
 	@BeforeAll
 	void createbid() {
-		user.setUsername("a");
-		user.setFullname("a");
-		user.setPassword(crypt.encode("a"));
+		user.setUsername("marty");
+		user.setFullname("mcfly");
+		user.setPassword(crypt.encode("88miles"));
 		user.setRole("ADMIN");
 	}
 	
@@ -61,19 +59,11 @@ public class UserControllerTest {
 
 		Model model = mock(Model.class);
 
-		String result = userController.home(model);
+		String result = userService.home(model);
 		assertEquals("user/list", result );
 
 	}
-	@Test
-	@Order(2)
-	public void testaddUser() {
 
-		String result = userController.addUser(user);
-
-		assertEquals("user/add", result );
-
-	}
 	@Test
 	@Order(3)
 	public void testValidate() {
@@ -82,7 +72,7 @@ public class UserControllerTest {
 		BindingResult bindingResult = mock(BindingResult.class);
 		Model model = mock(Model.class);
 
-		String result = userController.validate(user, bindingResult, model);
+		String result = userService.validate(user, bindingResult, model);
 
 		assertEquals("redirect:/user/list", result );
 
@@ -93,7 +83,7 @@ public class UserControllerTest {
 	public void testShowUpdateForm() {
 
 		Model model = mock(Model.class);
-		String result = userController.showUpdateForm(user.getId() , model);
+		String result = userService.showUpdateForm(user.getId() , model);
 
 		assertEquals("user/update", result );
 
@@ -112,7 +102,7 @@ public class UserControllerTest {
 		Model model = mock(Model.class);
 		BindingResult bindingResult = mock(BindingResult.class);
 
-		String result = userController.updateUser(user.getId(), newUser, bindingResult, model);
+		String result = userService.updateUser(user.getId(), newUser, bindingResult, model);
 
 		assertEquals("redirect:/user/list", result );
 
@@ -122,7 +112,7 @@ public class UserControllerTest {
 	@Order(6)
 	public void testDeleteUser() {
 		Model model = mock(Model.class);
-		String result = userController.deleteUser(user.getId(), model);
+		String result = userService.deleteUser(user.getId(), model);
 		assertEquals("redirect:/user/list", result );
 
 	}

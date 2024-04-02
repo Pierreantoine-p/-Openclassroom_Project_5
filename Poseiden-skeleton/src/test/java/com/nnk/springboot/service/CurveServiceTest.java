@@ -1,4 +1,4 @@
-package com.nnk.springboot.controller;
+package com.nnk.springboot.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -19,19 +19,16 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import com.nnk.springboot.controllers.CurveController;
-import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.repositories.CurveRepository;
-import com.nnk.springboot.service.CurveService;
 
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles("test")
-public class CurveControllerTest {
+public class CurveServiceTest {
 
-	@Autowired
-	private CurveController cuverController;
+
 
 	@Autowired
 	private CurveService curveService;
@@ -58,25 +55,18 @@ public class CurveControllerTest {
 		curveRepository.deleteAll();
 	}
 	
+
 	@Test
 	@Order(1)
 	public void testHome() {
 
 		Model model = mock(Model.class);
 
-		String result = cuverController.home(model);
+		String result = curveService.home(model);
 		assertEquals("curvePoint/list", result );
 
 	}
-	@Test
-	@Order(2)
-	public void testaddBidForm() {
 
-		String result = cuverController.addBidForm(curvePoint);
-
-		assertEquals("curvePoint/add", result );
-
-	}
 	@Test
 	@Order(3)
 	public void testValidate() {
@@ -85,7 +75,7 @@ public class CurveControllerTest {
 		BindingResult bindingResult = mock(BindingResult.class);
 		Model model = mock(Model.class);
 
-		String result = cuverController.validate(curvePoint, bindingResult, model);
+		String result = curveService.validate(curvePoint, bindingResult, model);
 
 		assertEquals("redirect:/curvePoint/list", result );
 
@@ -96,7 +86,7 @@ public class CurveControllerTest {
 	public void testShowUpdateForm() {
 
 		Model model = mock(Model.class);
-		String result = cuverController.showUpdateForm(curvePoint.getId(), model);
+		String result = curveService.showUpdateForm(curvePoint.getId(), model);
 
 		assertEquals("curvePoint/update", result );
 
@@ -119,7 +109,7 @@ public class CurveControllerTest {
 		Model model = mock(Model.class);
 		BindingResult bindingResult = mock(BindingResult.class);
 
-		String result = cuverController.updateBid(curvePoint.getId(), newCurvePoint, bindingResult, model);
+		String result = curveService.updateBid(curvePoint.getId(), newCurvePoint, bindingResult, model);
 
 		assertEquals("redirect:/curvePoint/list", result );
 
@@ -129,7 +119,7 @@ public class CurveControllerTest {
 	@Order(6)
 	public void testDeleteBid() {
 		Model model = mock(Model.class);
-		String result = cuverController.deleteBid(curvePoint.getId(), model);
+		String result = curveService.deleteBid(curvePoint.getId(), model);
 		assertEquals("redirect:/curvePoint/list", result );
 
 	}

@@ -1,4 +1,4 @@
-package com.nnk.springboot.controller;
+package com.nnk.springboot.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -21,18 +21,18 @@ import org.springframework.validation.BindingResult;
 import com.nnk.springboot.controllers.TradeController;
 import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.repositories.TradeRepository;
-import com.nnk.springboot.service.TradeService;
 
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles("test")
-public class TradeControllerTest {
+public class TradeServiceTest {
 
+	//@Autowired
+	//private TradeController tradeController;
 
 	@Autowired
-	private TradeController tradeController;
-
+	private TradeService tradeService;
 
 	@Autowired
 	private TradeRepository tradeRepository;
@@ -42,6 +42,7 @@ public class TradeControllerTest {
 
 	@BeforeAll
 	void createTrade() {
+
 
 		trade.setAccount("a");
 		trade.setType("a");
@@ -61,19 +62,11 @@ public class TradeControllerTest {
 
 		Model model = mock(Model.class);
 
-		String result = tradeController.home(model);
+		String result = tradeService.home(model);
 		assertEquals("trade/list", result );
 
 	}
-	@Test
-	@Order(2)
-	public void testaddBidForm() {
 
-		String result = tradeController.addUser(trade);
-
-		assertEquals("trade/add", result );
-
-	}
 	@Test
 	@Order(3)
 	public void testValidate() {
@@ -82,7 +75,7 @@ public class TradeControllerTest {
 		BindingResult bindingResult = mock(BindingResult.class);
 		Model model = mock(Model.class);
 
-		String result = tradeController.validate(trade, bindingResult, model);
+		String result = tradeService.validate(trade, bindingResult, model);
 
 		assertEquals("redirect:/trade/list", result );
 
@@ -93,8 +86,7 @@ public class TradeControllerTest {
 	public void testShowUpdateForm() {
 
 		Model model = mock(Model.class);
-		System.out.println("trade show : " + trade.getTradeId() );
-		String result = tradeController.showUpdateForm(trade.getTradeId() , model);
+		String result = tradeService.showUpdateForm(trade.getTradeId() , model);
 
 		assertEquals("trade/update", result );
 
@@ -105,6 +97,7 @@ public class TradeControllerTest {
 	public void testUpdateTrade() {
 		Trade newTrade = new Trade();
 
+		
 		newTrade.setAccount("b");
 		newTrade.setType("b");
 		newTrade.setBuyQuantity(5.0);
@@ -116,7 +109,7 @@ public class TradeControllerTest {
 		
 		System.out.println("trade update : " + trade.getTradeId() );
 		
-		String result = tradeController.updateTrade(trade.getTradeId(), newTrade, bindingResult, model);
+		String result = tradeService.updateTrade(trade.getTradeId(), newTrade, bindingResult, model);
 
 		assertEquals("redirect:/trade/list", result );
 
@@ -126,9 +119,8 @@ public class TradeControllerTest {
 	@Order(6)
 	public void testDeleteBid() {
 		Model model = mock(Model.class);
-		String result = tradeController.deleteTrade(trade.getTradeId(), model);
+		String result = tradeService.deleteTrade(trade.getTradeId(), model);
 		assertEquals("redirect:/trade/list", result );
 
 	}
-
 }

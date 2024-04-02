@@ -9,10 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 
@@ -24,9 +22,9 @@ public class Trade {
 	 @Id
 	 @GeneratedValue(strategy= GenerationType.IDENTITY)
 	 @Column(name = "tradeid")
-	 private Integer tradeId;
+	 private Integer TradeId;
 	 
-	 @NotBlank(message = "Type is mandatory")
+	 @NotBlank(message = "Account is mandatory")
 	 private String account;
 	 
 	 @NotBlank(message = "Type is mandatory")

@@ -1,13 +1,7 @@
-package com.nnk.springboot.controllers;
-
-import com.nnk.springboot.domain.Trade;
-import com.nnk.springboot.domain.User;
-import com.nnk.springboot.repositories.TradeRepository;
-import com.nnk.springboot.repositories.UserRepository;
-import com.nnk.springboot.service.TradeService;
+package com.nnk.springboot.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,29 +9,27 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.nnk.springboot.domain.Trade;
+import com.nnk.springboot.repositories.TradeRepository;
+
 import jakarta.validation.Valid;
 
-@Controller
-public class TradeController {
+@Service
+public class TradeService {
 
 	@Autowired
-	private TradeService tradeService;
+	private TradeRepository tradeRepository;
 
 
 	@RequestMapping("/trade/list")
 	public String home(Model model)
 	{
-		return tradeService.home(model);
+
+		model.addAttribute("trades", tradeRepository.findAll());
+		return "trade/list";
 	}
 
-	/**
-	 * Get all trades
-	 * @return "trade/add"
-	 */
-	@GetMapping("/trade/add")
-	public String addUser(Trade bid) {
-		return "trade/add";
-	}
+ 
 
 	/**
 	 * Post for validate trade 
@@ -47,8 +39,13 @@ public class TradeController {
 	 */
 	@PostMapping("/trade/validate")
 	public String validate(@Valid Trade trade, BindingResult result, Model model) {
-
-		return tradeService.validate(trade, result, model);
+		System.out.println("TRAAAAde: " + trade);
+		if (!result.hasErrors()) {
+			tradeRepository.save(trade);
+			model.addAttribute("trades", tradeRepository.findAll());
+			return "redirect:/trade/list";
+		}
+		return "trade/add";
 	}
 
 	/**
@@ -58,7 +55,9 @@ public class TradeController {
 	 */
 	@GetMapping("/trade/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-		return tradeService.showUpdateForm(id, model);
+		Trade trade = tradeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+		model.addAttribute("trade", trade);
+		return "trade/update";
 	}
 
 	/**
@@ -68,10 +67,13 @@ public class TradeController {
 	 * @return"trade/update"
 	 */
 	@PostMapping("/trade/update/{id}")
-	public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade,
-			BindingResult result, Model model) {
-
-		return tradeService.updateTrade(id, trade, result, model);
+	public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			return "trade/update";
+		}
+		tradeRepository.save(trade);
+		model.addAttribute("trades", tradeRepository.findAll());
+		return "redirect:/trade/list";
 	}
 
 	/**
@@ -81,6 +83,10 @@ public class TradeController {
 	 */
 	@GetMapping("/trade/delete/{id}")
 	public String deleteTrade(@PathVariable("id") Integer id, Model model) {
-		return tradeService.deleteTrade(id, model);
+		Trade trade = tradeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+		tradeRepository.delete(trade);
+		model.addAttribute("trades", tradeRepository.findAll());
+		return "redirect:/trade/list";
 	}
+
 }
