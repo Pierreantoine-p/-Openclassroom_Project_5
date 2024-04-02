@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nnk.springboot.domain.CurvePoint;
-import com.nnk.springboot.repositories.CurvePointRepository;
+import com.nnk.springboot.repositories.CurveRepository;
 
 import jakarta.validation.Valid;
 
 @Service
-public class CurvePointService {
+public class CurveService {
 
 	@Autowired
-	private CurvePointRepository curvePointRepository;
+	private CurveRepository curvePointRepository;
 
 	@RequestMapping("/curvePoint/list")
 	public String home(Model model)
@@ -27,14 +27,6 @@ public class CurvePointService {
 		return "curvePoint/list";
 	}
 
-	/**
-	 * Get all curvePoint
-	 * @return "curvePoint/add"
-	 */
-	@GetMapping("/curvePoint/add")
-	public String addBidForm(CurvePoint bid) {
-		return "curvePoint/add";
-	}
 
 	/**
 	 * Post for validate curvePoint 

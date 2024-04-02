@@ -1,12 +1,4 @@
-package com.nnk.springboot.controller;
-
-import org.junit.jupiter.api.TestInstance;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+package com.nnk.springboot.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -18,20 +10,24 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
 import com.nnk.springboot.controllers.BidListController;
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
-import com.nnk.springboot.service.BidListService;
 
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles("test")
-public class BidListControllerTest {
-
-	@Autowired
-	private BidListController bidListController;
+public class BidListServiceTest {
+	
 
 	@Autowired
 	private BidListService bidListService;
@@ -49,12 +45,14 @@ public class BidListControllerTest {
 		Timestamp timestamp = Timestamp.from(instant);
 		bid.setAccount("a");
 		bid.setType("a");
+
 		bid.setBidQuantity(6.0);
 		bid.setAskQuantity(6.0);
 		bid.setBid(6.0);
 		bid.setAsk(6.0);
 		bid.setBenchmark("a");
 		bid.setBidListDate(timestamp);
+
 		bid.setCommentary("a");
 		bid.setSecurity("a");
 		bid.setStatus("a");
@@ -75,53 +73,45 @@ public class BidListControllerTest {
 	void cleanUp() {
 		bidListRepository.deleteAll();
 	}
-
+	
 	@Test
 	@Order(1)
 	public void testHome() {
 
 		Model model = mock(Model.class);
 
-		String result = bidListController.home(model);
+		String result = bidListService.home(model);
 		assertEquals("bidList/list", result );
 
 	}
+
 	@Test
 	@Order(2)
-	public void testaddBidForm() {
-
-		String result = bidListController.addBidForm(bid);
-
-		assertEquals("bidList/add", result );
-
-	}
-	@Test
-	@Order(3)
 	public void testValidate() {
 
 
 		BindingResult bindingResult = mock(BindingResult.class);
 		Model model = mock(Model.class);
 
-		String result = bidListController.validate(bid, bindingResult, model);
+		String result = bidListService.validate(bid, bindingResult, model);
 
 		assertEquals("redirect:/bidList/list", result );
 
 	}
 
 	@Test
-	@Order(4)
+	@Order(3)
 	public void testShowUpdateForm() {
 
 		Model model = mock(Model.class);
-		String result = bidListController.showUpdateForm(bid.getBidListId() , model);
+		String result = bidListService.showUpdateForm(bid.getBidListId() , model);
 
 		assertEquals("bidList/update", result );
 
 	}
 
 	@Test
-	@Order(5)
+	@Order(4)
 	public void testUpdateBid() {
 		BidList newBid = new BidList();
 
@@ -154,19 +144,18 @@ public class BidListControllerTest {
 		Model model = mock(Model.class);
 		BindingResult bindingResult = mock(BindingResult.class);
 
-		String result = bidListController.updateBid(bid.getBidListId(), newBid, bindingResult, model);
+		String result = bidListService.updateBid(bid.getBidListId(), newBid, bindingResult, model);
 
 		assertEquals("redirect:/bidList/list", result );
 
 	}
 
 	@Test
-	@Order(6)
+	@Order(5)
 	public void testDeleteBid() {
 		Model model = mock(Model.class);
-		String result = bidListController.deleteBid(bid.getBidListId(), model);
+		String result = bidListService.deleteBid(bid.getBidListId(), model);
 		assertEquals("redirect:/bidList/list", result );
 
 	}
-
 }

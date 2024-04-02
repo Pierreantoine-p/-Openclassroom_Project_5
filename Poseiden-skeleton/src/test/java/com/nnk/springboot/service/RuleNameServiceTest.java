@@ -1,4 +1,4 @@
-package com.nnk.springboot.controller;
+package com.nnk.springboot.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -18,13 +18,12 @@ import org.springframework.validation.BindingResult;
 import com.nnk.springboot.controllers.RuleNameController;
 import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.repositories.RuleNameRepository;
-import com.nnk.springboot.service.RuleNameService;
 
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles("test")
-public class RuleNameControllerTest {
+public class RuleNameServiceTest {
 	
 	@Autowired
 	private RuleNameController ruleNameController;
@@ -53,25 +52,18 @@ public class RuleNameControllerTest {
 		ruleNameRepository.deleteAll();
 	}
 	
+
 	@Test
 	@Order(1)
 	public void testHome() {
 
 		Model model = mock(Model.class);
 
-		String result = ruleNameController.home(model);
+		String result = ruleNameService.home(model);
 		assertEquals("ruleName/list", result );
 
 	}
-	@Test
-	@Order(2)
-	public void testaddBidForm() {
 
-		String result = ruleNameController.addRuleForm(ruleName);
-
-		assertEquals("ruleName/add", result );
-
-	}
 	@Test
 	@Order(3)
 	public void testValidate() {
@@ -80,7 +72,7 @@ public class RuleNameControllerTest {
 		BindingResult bindingResult = mock(BindingResult.class);
 		Model model = mock(Model.class);
 
-		String result = ruleNameController.validate(ruleName, bindingResult, model);
+		String result = ruleNameService.validate(ruleName, bindingResult, model);
 
 		assertEquals("redirect:/ruleName/list", result );
 
@@ -91,7 +83,7 @@ public class RuleNameControllerTest {
 	public void testShowUpdateForm() {
 
 		Model model = mock(Model.class);
-		String result = ruleNameController.showUpdateForm(ruleName.getId() , model);
+		String result = ruleNameService.showUpdateForm(ruleName.getId() , model);
 
 		assertEquals("ruleName/update", result );
 
@@ -112,7 +104,7 @@ public class RuleNameControllerTest {
 		Model model = mock(Model.class);
 		BindingResult bindingResult = mock(BindingResult.class);
 
-		String result = ruleNameController.updateRuleName(ruleName.getId(), NewRuleName, bindingResult, model);
+		String result = ruleNameService.updateRuleName(ruleName.getId(), NewRuleName, bindingResult, model);
 
 		assertEquals("redirect:/ruleName/list", result );
 
@@ -122,8 +114,9 @@ public class RuleNameControllerTest {
 	@Order(6)
 	public void testDeleteBid() {
 		Model model = mock(Model.class);
-		String result = ruleNameController.deleteRuleName(ruleName.getId(), model);
+		String result = ruleNameService.deleteRuleName(ruleName.getId(), model);
 		assertEquals("redirect:/ruleName/list", result );
 
 	}
+	
 }

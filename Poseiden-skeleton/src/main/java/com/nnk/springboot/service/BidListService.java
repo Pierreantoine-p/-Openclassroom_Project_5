@@ -23,14 +23,7 @@ public class BidListService {
 		model.addAttribute("bidList", bidListRepository.findAll());
 		return "bidList/list";
 	}
-
-	/**
-	 * Get all bidList
-	 * @return "bidList/add"
-	 */
-	public String addBidForm(BidList bid) {
-		return "bidList/add";
-	}
+	
 	
 	/**
 	 * Post for validate bidList 
@@ -67,6 +60,8 @@ public class BidListService {
 	 */
 	@PostMapping("/bidList/update/{id}")
 	public String updateBid(Integer id, @Valid BidList bidList,	BindingResult result, Model model) {
+		System.out.println("Nom de zeus : " + result);
+		
 		if (result.hasErrors()) {
 			return "bidList/update";
 		}

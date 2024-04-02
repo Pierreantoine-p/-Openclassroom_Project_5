@@ -1,7 +1,6 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.RuleName;
-import com.nnk.springboot.repositories.RuleNameRepository;
 import com.nnk.springboot.service.RuleNameService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ public class RuleNameController {
   	 */
 	@GetMapping("/ruleName/add")
 	public String addRuleForm(RuleName bid) {
-		return ruleNameService.addRuleForm(bid);
+		return "ruleName/add";
 	}
 
     /**

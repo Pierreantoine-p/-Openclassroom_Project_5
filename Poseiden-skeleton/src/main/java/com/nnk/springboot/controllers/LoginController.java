@@ -1,11 +1,15 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.service.LoginService;
+
+import org.springframework.ui.Model;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
 
 @Controller
 @RequestMapping("app")
@@ -43,5 +47,10 @@ public class LoginController {
         return loginService.error();
     }
     
+    @GetMapping("/login-error")
+    public String loginError(Model model) {
+        model.addAttribute("loginError", true);
+        return "/loginError"; 
+    }
 
 }

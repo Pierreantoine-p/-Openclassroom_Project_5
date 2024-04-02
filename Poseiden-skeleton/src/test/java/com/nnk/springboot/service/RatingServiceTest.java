@@ -1,4 +1,4 @@
-package com.nnk.springboot.controller;
+package com.nnk.springboot.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -18,14 +18,13 @@ import org.springframework.validation.BindingResult;
 import com.nnk.springboot.controllers.RatingController;
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.repositories.RatingRepository;
-import com.nnk.springboot.service.RatingService;
 
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles("test")
-public class RatingControllerTest {
-
+public class RatingServiceTest {
+	
 	@Autowired
 	private RatingController ratingController;
 	
@@ -49,7 +48,6 @@ public class RatingControllerTest {
 	void cleanUp() {
 		ratingRepository.deleteAll();
 	}
-	
 
 	@Test
 	@Order(1)
@@ -57,19 +55,11 @@ public class RatingControllerTest {
 
 		Model model = mock(Model.class);
 
-		String result = ratingController.home(model);
+		String result = ratingService.home(model);
 		assertEquals("rating/list", result );
 
 	}
-	@Test
-	@Order(2)
-	public void testaddBidForm() {
 
-		String result = ratingController.addRatingForm(rating);
-
-		assertEquals("rating/add", result );
-
-	}
 	@Test
 	@Order(3)
 	public void testValidate() {
@@ -78,7 +68,7 @@ public class RatingControllerTest {
 		BindingResult bindingResult = mock(BindingResult.class);
 		Model model = mock(Model.class);
 
-		String result = ratingController.validate(rating, bindingResult, model);
+		String result = ratingService.validate(rating, bindingResult, model);
 
 		assertEquals("redirect:/rating/list", result );
 
@@ -89,7 +79,7 @@ public class RatingControllerTest {
 	public void testShowUpdateForm() {
 
 		Model model = mock(Model.class);
-		String result = ratingController.showUpdateForm(rating.getId() , model);
+		String result = ratingService.showUpdateForm(rating.getId() , model);
 
 		assertEquals("rating/update", result );
 
@@ -108,7 +98,7 @@ public class RatingControllerTest {
 		Model model = mock(Model.class);
 		BindingResult bindingResult = mock(BindingResult.class);
 
-		String result = ratingController.updateRating(rating.getId(), newRating, bindingResult, model);
+		String result = ratingService.updateRating(rating.getId(), newRating, bindingResult, model);
 
 		assertEquals("redirect:/rating/list", result );
 
@@ -118,9 +108,9 @@ public class RatingControllerTest {
 	@Order(6)
 	public void testDeleteBid() {
 		Model model = mock(Model.class);
-		String result = ratingController.deleteRating(rating.getId(), model);
+		String result = ratingService.deleteRating(rating.getId(), model);
 		assertEquals("redirect:/rating/list", result );
 
 	}
-	
+
 }

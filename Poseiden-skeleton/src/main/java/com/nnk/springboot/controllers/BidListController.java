@@ -38,7 +38,7 @@ public class BidListController {
 	 */
 	@GetMapping("/bidList/add")
 	public String addBidForm(BidList bid) {
-		return bidListService.addBidForm(bid);
+		return "bidList/add";
 	}
 
 	/**

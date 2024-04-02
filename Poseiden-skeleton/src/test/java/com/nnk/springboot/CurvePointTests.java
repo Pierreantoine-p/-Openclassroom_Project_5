@@ -1,7 +1,7 @@
 package com.nnk.springboot;
 
 import com.nnk.springboot.domain.CurvePoint;
-import com.nnk.springboot.repositories.CurvePointRepository;
+import com.nnk.springboot.repositories.CurveRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +17,7 @@ import java.util.Optional;
 public class CurvePointTests {
 
 	@Autowired
-	private CurvePointRepository curvePointRepository;
+	private CurveRepository curvePointRepository;
 /*
 	@Test
 	public void curvePointTest() {

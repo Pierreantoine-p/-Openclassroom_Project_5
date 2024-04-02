@@ -27,14 +27,7 @@ public class RuleNameService {
 		return "ruleName/list";
 	}
 
-	/**
-  	 * Get all ruleNames
-  	 * @return "ruleName/add"
-  	 */
-	@GetMapping("/ruleName/add")
-	public String addRuleForm(RuleName bid) {
-		return "ruleName/add";
-	}
+	 
 
     /**
   	 * Post for validate user ruleName

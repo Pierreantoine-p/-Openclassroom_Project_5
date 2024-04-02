@@ -1,10 +1,7 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.CurvePoint;
-import com.nnk.springboot.domain.User;
-import com.nnk.springboot.repositories.CurvePointRepository;
-import com.nnk.springboot.repositories.UserRepository;
-import com.nnk.springboot.service.CurvePointService;
+import com.nnk.springboot.service.CurveService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +18,7 @@ import jakarta.validation.Valid;
 public class CurveController {
 
 	@Autowired
-	private CurvePointService curvePointService;
+	private CurveService curvePointService;
 
 	@RequestMapping("/curvePoint/list")
 	public String home(Model model)
@@ -35,7 +32,7 @@ public class CurveController {
   	 */
 	@GetMapping("/curvePoint/add")
 	public String addBidForm(CurvePoint bid) {
-		return curvePointService.addBidForm(bid);
+		return "curvePoint/add";
 	}
 
 	  /**

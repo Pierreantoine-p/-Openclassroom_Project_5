@@ -26,14 +26,7 @@ public class RatingService {
 	        return "rating/list";
 	    }
 	  
-	    /**
-	  	 * Get all rating
-	  	 * @return "rating/add"
-	  	 */
-	    @GetMapping("/rating/add")
-	    public String addRatingForm(Rating rating) {
-	        return "rating/add";
-	    }
+
 	    /**
 	  	 * Post for validate user rating
 	  	 * @RequestBody Rating : rating

@@ -1,7 +1,6 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.Rating;
-import com.nnk.springboot.repositories.RatingRepository;
 import com.nnk.springboot.service.RatingService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,7 @@ public class RatingController {
   	 */
     @GetMapping("/rating/add")
     public String addRatingForm(Rating rating) {
-        return ratingService.addRatingForm(rating);
+        return "rating/add";
     }
     
     /**
