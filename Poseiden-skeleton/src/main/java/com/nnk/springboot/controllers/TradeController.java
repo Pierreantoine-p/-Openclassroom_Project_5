@@ -6,6 +6,8 @@ import com.nnk.springboot.repositories.TradeRepository;
 import com.nnk.springboot.repositories.UserRepository;
 import com.nnk.springboot.service.TradeService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,11 +25,18 @@ public class TradeController {
 	@Autowired
 	private TradeService tradeService;
 
+	private static final Logger logger = LoggerFactory.getLogger(TradeController.class);
 
 	@RequestMapping("/trade/list")
 	public String home(Model model)
 	{
-		return tradeService.home(model);
+		try {
+			return tradeService.home(model);
+
+		}catch (Exception ex) {
+			logger.error("Une erreur s'est produite : ", ex);
+			return "error";
+		}
 	}
 
 	/**
@@ -47,8 +56,13 @@ public class TradeController {
 	 */
 	@PostMapping("/trade/validate")
 	public String validate(@Valid Trade trade, BindingResult result, Model model) {
+		try {
+			return tradeService.validate(trade, result, model);
 
-		return tradeService.validate(trade, result, model);
+		}catch (Exception ex) {
+			logger.error("Une erreur s'est produite : ", ex);
+			return "error";
+		}
 	}
 
 	/**
@@ -58,7 +72,13 @@ public class TradeController {
 	 */
 	@GetMapping("/trade/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-		return tradeService.showUpdateForm(id, model);
+		try {
+			return tradeService.showUpdateForm(id, model);
+
+		}catch (Exception ex) {
+			logger.error("Une erreur s'est produite : ", ex);
+			return "error";
+		}
 	}
 
 	/**
@@ -70,8 +90,13 @@ public class TradeController {
 	@PostMapping("/trade/update/{id}")
 	public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade,
 			BindingResult result, Model model) {
+		try {
+			return tradeService.updateTrade(id, trade, result, model);
 
-		return tradeService.updateTrade(id, trade, result, model);
+		}catch (Exception ex) {
+			logger.error("Une erreur s'est produite : ", ex);
+			return "error";
+		}
 	}
 
 	/**
@@ -81,6 +106,12 @@ public class TradeController {
 	 */
 	@GetMapping("/trade/delete/{id}")
 	public String deleteTrade(@PathVariable("id") Integer id, Model model) {
-		return tradeService.deleteTrade(id, model);
+		try {
+			return tradeService.deleteTrade(id, model);
+
+		}catch (Exception ex) {
+			logger.error("Une erreur s'est produite : ", ex);
+			return "error";
+		}
 	}
 }

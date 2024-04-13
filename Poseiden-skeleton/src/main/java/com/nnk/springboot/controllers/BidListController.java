@@ -3,6 +3,8 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
 import com.nnk.springboot.service.BidListService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +22,21 @@ import jakarta.validation.Valid;
 @Controller
 public class BidListController {
 
-	@Autowired
-	private BidListRepository bidListRepository;
+	private static final Logger logger = LoggerFactory.getLogger(BidListController.class);
+
 
 	@Autowired
 	private BidListService bidListService;
 
 	@RequestMapping("/bidList/list")
-	public String home(Model model)
-	{
-		return bidListService.home(model);
+
+	public String home(Model model){
+		try {
+			return bidListService.home(model);
+		}catch (Exception ex) {
+			logger.error("Une erreur s'est produite : ", ex);
+			return "error";
+		}
 	}
 
 	/**
@@ -48,7 +55,13 @@ public class BidListController {
 	 */
 	@PostMapping("/bidList/validate")
 	public String validate(@Valid BidList bid, BindingResult result, Model model) {
-		return bidListService.validate(bid,result,model);
+		try {
+			return bidListService.validate(bid,result,model);
+
+		}catch (Exception ex) {
+			logger.error("Une erreur s'est produite : ", ex);
+			return "error";
+		}
 	}
 
 	/**
@@ -58,7 +71,13 @@ public class BidListController {
 	 */
 	@GetMapping("/bidList/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-		return bidListService.showUpdateForm(id,model);
+		try {
+			return bidListService.showUpdateForm(id,model);
+
+		}catch (Exception ex) {
+			logger.error("Une erreur s'est produite : ", ex);
+			return "error";
+		}
 
 	}
 
@@ -69,7 +88,13 @@ public class BidListController {
 	 */
 	@PostMapping("/bidList/update/{id}")
 	public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList,BindingResult result, Model model) {
+		try {
 			return bidListService.updateBid(id,bidList, result, model);
+
+		}catch (Exception ex) {
+			logger.error("Une erreur s'est produite : ", ex);
+			return "error";
+		}
 
 	}
 
@@ -80,6 +105,12 @@ public class BidListController {
 	 */
 	@GetMapping("/bidList/delete/{id}")
 	public String deleteBid(@PathVariable("id") Integer id, Model model) {
-		return bidListService.deleteBid(id, model);
+		try {
+			return bidListService.deleteBid(id, model);
+
+		}catch (Exception ex) {
+			logger.error("Une erreur s'est produite : ", ex);
+			return "error";
+		}
 	}
 }

@@ -1,5 +1,7 @@
 package com.nnk.springboot.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -20,11 +22,21 @@ public class CurveService {
 	@Autowired
 	private CurveRepository curvePointRepository;
 
+	private static final Logger logger = LoggerFactory.getLogger(CurveService.class);
+
+	
 	@RequestMapping("/curvePoint/list")
 	public String home(Model model)
 	{
-		model.addAttribute("curvePoint", curvePointRepository.findAll());
-		return "curvePoint/list";
+
+		try {
+			model.addAttribute("curvePoint", curvePointRepository.findAll());
+			return "curvePoint/list";
+
+		}catch( Exception  e) {
+			logger.error("error :" + e);
+			return "error";
+		}
 	}
 
 
@@ -35,13 +47,20 @@ public class CurveService {
 	 */
 	@PostMapping("/curvePoint/validate")
 	public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
-		if (!result.hasErrors()) {
-			curvePointRepository.save(curvePoint);
-			model.addAttribute("curvePoint", curvePointRepository.findAll());
-			return "redirect:/curvePoint/list";
 
+		try {
+			if (!result.hasErrors()) {
+				curvePointRepository.save(curvePoint);
+				model.addAttribute("curvePoint", curvePointRepository.findAll());
+				return "redirect:/curvePoint/list";
+
+			}
+			return "curvePoint/add";
+
+		}catch( Exception  e) {
+			logger.error("error :" + e);
+			return "error";
 		}
-		return "curvePoint/add";
 	}
 
 	/**
@@ -51,27 +70,41 @@ public class CurveService {
 	 */
 	@GetMapping("/curvePoint/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-		CurvePoint curvePoint  = curvePointRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-		model.addAttribute("curvePoint", curvePoint);
-		return "curvePoint/update";
+
+		try {
+			CurvePoint curvePoint  = curvePointRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+			model.addAttribute("curvePoint", curvePoint);
+			return "curvePoint/update";
+
+		}catch( Exception  e) {
+			logger.error("error :" + e);
+			return "error";
+		}
 	}
-	
-	 /**
-  	 * Update one curvePoint by id
-  	 * @Param id : id
-  	 * @return "redirect:/curvePoint/list"
-  	 */
+
+	/**
+	 * Update one curvePoint by id
+	 * @Param id : id
+	 * @return "redirect:/curvePoint/list"
+	 */
 	@PostMapping("/curvePoint/update/{id}")
 	public String updateBid(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint,
 			BindingResult result, Model model) {
-		if (result.hasErrors()) {
-			return "curvePoint/update";
+
+		try {
+			if (result.hasErrors()) {
+				return "curvePoint/update";
+			}
+			curvePointRepository.save(curvePoint);
+			model.addAttribute("curvePoint", curvePointRepository.findAll());
+			return "redirect:/curvePoint/list";
+
+		}catch( Exception  e) {
+			logger.error("error :" + e);
+			return "error";
 		}
-		curvePointRepository.save(curvePoint);
-		model.addAttribute("curvePoint", curvePointRepository.findAll());
-		return "redirect:/curvePoint/list";
 	}
-	
+
 	/**
 	 * Delete one curvePoint by id
 	 * @Param id : id
@@ -79,9 +112,16 @@ public class CurveService {
 	 */
 	@GetMapping("/curvePoint/delete/{id}")
 	public String deleteBid(@PathVariable("id") Integer id, Model model) {
-		CurvePoint curvePoint  = curvePointRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-		curvePointRepository.delete(curvePoint);
-		model.addAttribute("curvePoint", curvePointRepository.findAll());
-		return "redirect:/curvePoint/list";
+
+		try {
+
+			CurvePoint curvePoint  = curvePointRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+			curvePointRepository.delete(curvePoint);
+			model.addAttribute("curvePoint", curvePointRepository.findAll());
+			return "redirect:/curvePoint/list";
+		}catch( Exception  e) {
+			logger.error("error :" + e);
+			return "error";
+		}
 	}
 }

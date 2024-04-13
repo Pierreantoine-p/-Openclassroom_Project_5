@@ -3,6 +3,8 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.service.UserService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import jakarta.validation.Valid;
 
 @Controller
 public class UserController {
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
 	private UserService userService;
@@ -27,7 +30,13 @@ public class UserController {
 	@RequestMapping("/user/list")
 	public String home(Model model)
 	{
- 		return userService.home(model);
+		try {
+			 		return userService.home(model);
+
+		}catch (Exception ex) {
+			logger.error("Une erreur s'est produite : ", ex);
+			return "error";
+		}
 	}
 
 	/**
@@ -46,7 +55,13 @@ public class UserController {
 	 */
 	@PostMapping("/user/validate")
 	public String validate(@Valid User user, BindingResult result, Model model) {
-		return userService.validate(user, result, model);
+		try {
+					return userService.validate(user, result, model);
+
+		}catch (Exception ex) {
+			logger.error("Une erreur s'est produite : ", ex);
+			return "error";
+		}
 	}
 
 	/**
@@ -56,8 +71,13 @@ public class UserController {
 	 */
 	@GetMapping("/user/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+		try {
+					return userService.showUpdateForm(id, model);
 
-		return userService.showUpdateForm(id, model);
+		}catch (Exception ex) {
+			logger.error("Une erreur s'est produite : ", ex);
+			return "error";
+		}
 	}
 
 	/**
@@ -68,7 +88,13 @@ public class UserController {
 	@PostMapping("/user/update/{id}")
 	public String updateUser(@PathVariable("id") Integer id, @Valid User user,
 			BindingResult result, Model model) {
-		return userService.updateUser(id, user, result, model);
+		try {
+					return userService.updateUser(id, user, result, model);
+
+		}catch (Exception ex) {
+			logger.error("Une erreur s'est produite : ", ex);
+			return "error";
+		}
 	}
 
 	/**
@@ -78,8 +104,13 @@ public class UserController {
 	 */
 	@GetMapping("/user/delete/{id}")
 	public String deleteUser(@PathVariable("id") Integer id, Model model) {
- 
-		return userService.deleteUser(id, model);
+		try {
+					return userService.deleteUser(id, model);
+
+		}catch (Exception ex) {
+			logger.error("Une erreur s'est produite : ", ex);
+			return "error";
+		}
 	}
 
 }

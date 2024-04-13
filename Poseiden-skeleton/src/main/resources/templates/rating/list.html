@@ -15,6 +15,9 @@
 			<a href="/rating/list">Ratings</a>&nbsp;|&nbsp;
 			<a href="/trade/list">Trade</a>&nbsp;|&nbsp;
 			<a href="/ruleName/list">Rule</a>
+			<div sec:authorize="hasRole('[ROLE_ADMIN]')">
+			<a href="/user/list">User management</a>
+			</div>
 		</div>
 		<div class="col-6 text-right">
 		
