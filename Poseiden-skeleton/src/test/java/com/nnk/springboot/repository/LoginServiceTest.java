@@ -21,8 +21,6 @@ import org.junit.jupiter.api.Test;
 @ActiveProfiles("test")
 public class LoginServiceTest {
 	
-	@Autowired
-	private LoginController loginController;
 
 	@Autowired
 	private LoginService loginService;

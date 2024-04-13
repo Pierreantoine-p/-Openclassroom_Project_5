@@ -44,14 +44,15 @@ public class SecurityConfig {
 		.cors(AbstractHttpConfigurer::disable).csrf(AbstractHttpConfigurer::disable)
 		.authorizeHttpRequests(
 				(authorize) -> authorize
-				.requestMatchers("/home", "/", "/user/list","/user/add", "/user/validate").permitAll()	
+				.requestMatchers("/home", "/","/user/add", "/user/validate").permitAll()	
 				.requestMatchers("/css/**").permitAll()
+				.requestMatchers("/user/list").hasRole("ADMIN")
 				.anyRequest().authenticated())
 		
-
 		
 		
 		.formLogin((formLogin) -> formLogin
+			
 				.defaultSuccessUrl("/bidList/list", true)
 			    .failureUrl("/login-error")
                 .failureHandler(authenticationFailureHandler()) 
